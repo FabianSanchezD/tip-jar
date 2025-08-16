@@ -49,25 +49,20 @@ const makeTx = async (amount, memo) => {
 
   const xdr = tx.toXDR(); // we need to pass it to xdr for it to work with freighter
 
-  console.log("llegue antes de signature")
   const freighterSign = await Freighter.signTransaction(xdr, { networkPassphrase: Networks.TESTNET });
   if (!freighterSign) {
     return "Failed to sign transaction";
   }
-  console.log("llegue antes de signedtx")
   const signedTx = TransactionBuilder.fromXDR(freighterSign.signedTxXdr, Networks.TESTNET);
 
-  console.log("llegue antes de res")
   try {
   const res = await server.submitTransaction(signedTx);
-  console.log("OK", res.hash);
   return `Transaction submitted successfully: ${res.hash}`;
 } catch (e) {
   const data = e?.response?.data;
   console.error("Error:", data);
   return "Failed to submit transaction";
 }
-
 }
 
 export default makeTx;
