@@ -18,6 +18,7 @@ export default function Home() {
               console.log(form);
               const amount = (form.elements[0] as HTMLInputElement).value;
               const memo = (form.elements[1] as HTMLInputElement).value;
+              setStatus("Loading...");
               const result = await MakeTx(amount, memo);
               setStatus(result);
             }}
@@ -26,7 +27,7 @@ export default function Home() {
             <input type="text" placeholder="Enter your message (memo)" className="border border-gray-300 p-2 rounded" />
             <button type="submit" className="bg-blue-500 text-white p-2 rounded">Tip with Freighter</button>
         </form>
-        {status != "" ? <p>Status: {status}</p> : null}
+        {status != "" ? <p>{status}</p> : null}
     </div>
   );
 }
